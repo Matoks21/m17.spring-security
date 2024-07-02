@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Note List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: black;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logout-button {
+            text-transform: uppercase;
+            color: black;
+            border: 1px solid black;
+            padding: 5px 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            animation: fadeIn 2s forwards;
+        }
+
+
+         .about-user-button {
+            text-transform: uppercase;
+            color: black;
+            border: 1px solid black;
+            padding: 5px 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            animation: fadeIn 2s forwards;
+        }
+
+        .table td {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<meta name="viewport" content="width=device-width">
+<body>
+<video class="video-background" autoplay loop muted>
+    <source src="https://s3-us-west-2.amazonaws.com/converterpoint-22/encodings/8abadd31db04a8741a4d6c3bcfbde53c.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+<div class="content">
+    <h1 class="font-weight-bold">Notes</h1>
+    <table class="table">
+        <tr>
+            <th class="font-weight-bold">ID</th>
+            <th class="font-weight-bold">Title</th>
+            <th class="font-weight-bold">Content</th>
+            <th class="font-weight-bold">Actions</th>
+        </tr>
+        <tr th:each="note : ${notes}">
+            <td th:text="${note.noteNumber}">ID</td>
+            <td th:text="${note.title}">Title</td>
+            <td th:text="${note.content}">Content</td>
+            <td>
+                <a th:href="@{/note/edit(id=${note.id})}" class="btn btn-primary">Edit</a>
+                <form th:action="@{/note/delete}" method="post" style="display: inline;">
+                    <input type="hidden" th:value="${note.id}" name="id"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <a th:href="@{/note/add}" class="btn btn-success">ADD NOTE</a>
+
+    <a th:href="@{/user}"  class="about-user-button animated-link">For ADMIN</a>
+
+    <a th:href="@{/logout}" class="logout-button animated-link">Logout</a>
+</div>
+</body>
+</html>
